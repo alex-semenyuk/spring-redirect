@@ -1,3 +1,3 @@
 # spring-redirect
 
-Different ways a redirect in Spring
+The different ways a redirect in Spring
