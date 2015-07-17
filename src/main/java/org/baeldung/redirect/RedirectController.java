@@ -10,35 +10,28 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @RequestMapping("/")
 public class RedirectController {
-	
-	@RequestMapping(value="/testRedirectWithXMLConfig",method = RequestMethod.GET)
-	public ModelAndView testRedirectWithRedirect(ModelMap model) {
-		model.addAttribute("attribute", "testRedirectWithXMLConfig");
-		return new ModelAndView("RedirectedUrl", model);
-	}
 
-	@RequestMapping(value="/testRedirectWithRedirectPrefix",method = RequestMethod.GET)
-	public ModelAndView testRedirectWithRedirectPrefix(ModelMap model) {
-		model.addAttribute("attribute", "testRedirectWithRedirectPrefix");
-		return new ModelAndView("redirect:/redirectedUrl", model);
-	}
+    @RequestMapping(value = "/redirectWithXMLConfig", method = RequestMethod.GET)
+    public ModelAndView redirectWithUsingXMLConfig(ModelMap model) {
+        model.addAttribute("attribute", "redirectWithXMLConfig");
+        return new ModelAndView("RedirectedUrl", model);
+    }
 
-	@RequestMapping(value="/testRedirectWithRedirectView", method = RequestMethod.GET)
-	public RedirectView testRedirectWithRedirectView(ModelMap model) {
-		model.addAttribute("attribute", "testRedirectWithRedirectView");
-		return new RedirectView("redirectedUrl");
-	}
+    @RequestMapping(value = "/redirectWithRedirectPrefix", method = RequestMethod.GET)
+    public ModelAndView redirectWithUsingRedirectPrefix(ModelMap model) {
+        model.addAttribute("attribute", "redirectWithRedirectPrefix");
+        return new ModelAndView("redirect:/redirectedUrl", model);
+    }
 
-	@RequestMapping(value="/testRedirectWithForwardPrefix",method = RequestMethod.GET)
-	public ModelAndView testRedirectWithForwardPrefix(ModelMap model) {
-		model.addAttribute("attribute", "testRedirectWithForwardPrefix");
-		return new ModelAndView("forward:/redirectedUrl", model);
-	}
+    @RequestMapping(value = "/redirectWithRedirectView", method = RequestMethod.GET)
+    public RedirectView redirectWithUsingRedirectView(ModelMap model) {
+        model.addAttribute("attribute", "redirectWithRedirectView");
+        return new RedirectView("redirectedUrl");
+    }
 
-	@RequestMapping(value="/redirectedUrl", method = RequestMethod.GET)
-	public ModelAndView redirection(ModelMap model) {
-		model.addAttribute("message", "Test redirection");
-		return new ModelAndView("redirect", model);
-	}
-
+    @RequestMapping(value = "/redirectWithForwardPrefix", method = RequestMethod.GET)
+    public ModelAndView redirectWithUsingForwardPrefix(ModelMap model) {
+        model.addAttribute("attribute", "redirectWithForwardPrefix");
+        return new ModelAndView("forward:/redirectedUrl", model);
+    }
 }
