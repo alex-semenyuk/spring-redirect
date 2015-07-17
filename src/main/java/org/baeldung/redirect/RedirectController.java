@@ -5,6 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -24,8 +25,9 @@ public class RedirectController {
     }
 
     @RequestMapping(value = "/redirectWithRedirectView", method = RequestMethod.GET)
-    public RedirectView redirectWithUsingRedirectView(ModelMap model) {
+    public RedirectView redirectWithUsingRedirectView(ModelMap model, RedirectAttributes redirectAttributes) {
         model.addAttribute("attribute", "redirectWithRedirectView");
+        redirectAttributes.addFlashAttribute("flashAttribute", "redirectWithRedirectPrefix");
         return new RedirectView("redirectedUrl");
     }
 
