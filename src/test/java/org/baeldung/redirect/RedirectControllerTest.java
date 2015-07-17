@@ -1,23 +1,22 @@
 package org.baeldung.redirect;
 
+
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -40,7 +39,7 @@ public class RedirectControllerTest {
         this.mockMvc.perform(get("/redirectWithXMLConfig"))
           .andExpect(status().is3xxRedirection())
           .andExpect(view().name("RedirectedUrl"))
-          .andExpect(model().attribute("attribute", "redirectWithXMLConfig"))
+          .andExpect(model().attribute("attribute", is("redirectWithXMLConfig")))
           .andExpect(redirectedUrl("redirectedUrl?attribute=redirectWithXMLConfig"));
     }
 
@@ -48,9 +47,8 @@ public class RedirectControllerTest {
     public void whenRedirectOnUrlWithRedirectPrefix_thenStatusRedirectionAndRedirectedOnUrl() throws Exception {
         this.mockMvc.perform(get("/redirectWithRedirectPrefix"))
           .andExpect(status().is3xxRedirection())
-          .andExpect(view().name("redirect:/redirectedUrl"))
-          .andExpect(flash().attribute("flashAttribute", "redirectWithRedirectPrefix"))
-          .andExpect(model().attribute("attribute", "redirectWithRedirectPrefix"))
+          .andExpect(view().name("redirect:/redirectedUrl"))   
+          .andExpect(model().attribute("attribute", is("redirectWithRedirectPrefix")))
           .andExpect(redirectedUrl("/redirectedUrl?attribute=redirectWithRedirectPrefix"));
     }
 
@@ -58,7 +56,9 @@ public class RedirectControllerTest {
     public void whenRedirectOnUrlWithRedirectView_thenStatusRedirectionAndRedirectedOnUrl() throws Exception {
         this.mockMvc.perform(get("/redirectWithRedirectView"))
           .andExpect(status().is3xxRedirection())
-          .andExpect(model().attribute("attribute", "redirectWithRedirectView"))
+          .andExpect(flash().attribute("flashAttribute", is("redirectWithRedirectView")))
+          .andExpect(model().attribute("attribute", is("redirectWithRedirectView")))
+          .andExpect(model().attribute("flashAttribute", is(nullValue())))
           .andExpect(redirectedUrl("redirectedUrl?attribute=redirectWithRedirectView"));
     }
 
@@ -67,7 +67,7 @@ public class RedirectControllerTest {
         this.mockMvc.perform(get("/redirectWithForwardPrefix"))
           .andExpect(status().isOk())
           .andExpect(view().name("forward:/redirectedUrl"))
-          .andExpect(model().attribute("attribute", "redirectWithForwardPrefix"))
+          .andExpect(model().attribute("attribute", is("redirectWithForwardPrefix")))
           .andExpect(forwardedUrl("/redirectedUrl"));
     }
 
