@@ -25,10 +25,16 @@ public class RedirectController {
         return new ModelAndView("redirect:/redirectedUrl", model);
     }
 
+    @RequestMapping(value = "/redirectWithRedirectAttributes", method = RequestMethod.GET)
+    public RedirectView redirectWithRedirectAttributes(final RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("flashAttribute", "redirectWithRedirectAttributes");
+        redirectAttributes.addAttribute("attribute", "redirectWithRedirectAttributes");
+        return new RedirectView("redirectedUrl");
+    }
+
     @RequestMapping(value = "/redirectWithRedirectView", method = RequestMethod.GET)
-    public RedirectView redirectWithUsingRedirectView(final RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("flashAttribute", "redirectWithRedirectView");
-        redirectAttributes.addAttribute("attribute", "redirectWithRedirectView");
+    public RedirectView redirectWithUsingRedirectView(final ModelMap model) {
+        model.addAttribute("attribute", "redirectWithRedirectView");
         return new RedirectView("redirectedUrl");
     }
 
@@ -37,7 +43,7 @@ public class RedirectController {
         model.addAttribute("attribute", "redirectWithForwardPrefix");
         return new ModelAndView("forward:/redirectedUrl", model);
     }
-    
+
     @RequestMapping(value = "/redirectedUrl", method = RequestMethod.GET)
     public ModelAndView redirection(final ModelMap model, @ModelAttribute("flashAttribute") final Object flashAttribute) {
         model.addAttribute("redirectionAttribute", flashAttribute);
